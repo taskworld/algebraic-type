@@ -83,7 +83,9 @@ const Action = AlgebraicType({
   })
   ```
 
-- __Plain Redux: Create an object literal directly.__
+  You still have the benefit of seeing all the actions in your application in a single place.
+
+- __Plain Redux Action Creators: Create an object literal directly.__
 
   ```js
   export function addTodo(text) {
@@ -91,11 +93,13 @@ const Action = AlgebraicType({
   }
   ```
 
-  There is a possibility that you misspelt the property name (`types.ADD_TOFU`) or the import name.
-  In this case, you end up dispatching an `undefined` action.
+  There is a possibility that you misspelt the property name.
+  Maybe it’s late at night and you’re hungry and thinking about some tofu soup.
+  You typed in `types.ADD_TOFU` (or just `ADD_TOFU` in case of ES6 imports).
+  You end up dispatching an `undefined` action.
   You may also be dispatching a malformed object.
 
-- __With `algebraic-type`: You invoke the __value constructor__.
+- __With `algebraic-type`: You invoke the value constructor.__
 
   ```js
   function addTodo(text) {
@@ -114,7 +118,7 @@ const Action = AlgebraicType({
   You immediately get an error if you misspell it.
 
   ```js
-  Action.AddTodo({ text: 'Learn Redux' })
+  Action.AddTofu({ text: 'Learn Redux' })
   // => TypeError: Action.AddTofu is not a function
   ```
 
@@ -124,6 +128,9 @@ const Action = AlgebraicType({
   Action.AddTodo({ task: 'Learn Redux' })
   // => Error: missing property: "text"
   ```
+
+  __`algebraic-type` is not a replacement for action creators;__
+  they are simply utilities that helps you creating well-formed action types and action objects.
 
 - __Plain Redux: Use switch statements.__
   If you misspeelt the imported name, your reducer simply won’t process the action.
