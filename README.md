@@ -214,7 +214,8 @@ These are just ideas; they are not implemented yet.
   })
   ```
 
+- __Implement toString()__ so that it can be used easily with `createReducer`, esp when composed of multiple types.
+
 - __switch() function__ that takes an incoming object and switches between functions based on type.
 
 - __types() function__ that returns an list of available keys.
-
