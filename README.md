@@ -107,8 +107,8 @@ const Action = AlgebraicType({
   }
   ```
 
-  The type constructor validates what’s passed into it,
-  and returns a __plain object__ with the `type` property set to the constructor’s name.
+  The value constructor validates what’s passed into it,
+  and returns a __plain, serializable object__ with the `type` property set to the constructor’s name.
 
   ```js
   Action.AddTodo({ text: 'Learn Redux' })
