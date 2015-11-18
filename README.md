@@ -162,3 +162,59 @@ const Action = AlgebraicType({
 
 - TK `createReducer` example.
 
+
+## Moar Feature Ideas
+
+These are just ideas; they are not implemented yet.
+
+- __Breaking:__ Rename `check()` to `validate()` so that it is compatible with `data-structure`.
+
+- __Force all user-specified types to start with an uppercase.__ Throw an error otherwise.
+
+  This allows new features to be innovated without fear of clashing with user types.
+
+- __Add name prefix to generated `type` to prevent them from clashing.__
+  Maybe follow the [ducks](https://github.com/erikras/ducks-modular-redux) convention:
+
+  ```js
+  const Action = AlgebraicType({
+    prefix: 'my-app/widgets/',
+    Load: { },
+    Create: { widget: Object },
+    Update: { widget: Object },
+    Remove: { widget: Object },
+  })
+  ```
+
+  Another example is to construct similar-looking actions:
+
+  ```js
+  function AsyncAction(prefix) {
+    return new AlgebraicType({
+      prefix,
+      Request: { },
+      Success: { response: Object },
+      Failure: { error: String },
+    })
+  }
+  ```
+
+- __Allow type composition/nested actions.__ This allows actions to be more modular.
+
+  Here is an example from Elm’s architecture tutorial, [a list of counters](https://github.com/evancz/elm-architecture-tutorial/#example-3-a-dynamic-list-of-counters):
+
+  ```js
+  import { Action as CounterAction } from './counter'
+
+  const Action = AlgebraicType({
+    prefix: 'my-app/main/',
+    Insert: { },
+    Remove: { },
+    Modify: { id: String, action: CounterAction },
+  })
+  ```
+
+- __switch() function__ that takes an incoming object and switches between functions based on type.
+
+- __types() function__ that returns an list of available keys.
+
