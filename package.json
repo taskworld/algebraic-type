@@ -1,0 +1,14 @@
+{
+  "name": "algebraic-type",
+  "version": "1.0.0",
+  "description": "Algebraic data types for JavaScript (which works with plain object) for use with Redux",
+  "main": "index.js",
+  "scripts": {
+    "test": "node test.js"
+  },
+  "author": "Thai Pangsakulyanont @ Taskworld.com <thai.p@taskworld.com>",
+  "license": "MIT",
+  "dependencies": {
+    "data-structure": "^1.2.0"
+  }
+}
