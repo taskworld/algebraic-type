@@ -131,6 +131,7 @@ const Action = AlgebraicType({
 
   __`algebraic-type` is not a replacement for action creators;__
   they are simply utilities that helps you creating well-formed action types and action objects.
+  [The case for action creators still holds](http://rackt.org/redux/docs/recipes/ReducingBoilerplate.html#action-creators).
 
 - __Plain Redux: Use switch statements.__
   If you misspeelt the imported name, your reducer simply won’t process the action.
