@@ -1,7 +1,10 @@
 'use strict'
 
+const ava = require('ava')
 const assert = require('assert')
 const AlgebraicType = require('./')
+const test = (name, f) => ava(name, t => { f(t); t.end() })
+
 
 const Action = AlgebraicType({
 
@@ -25,59 +28,74 @@ const Action = AlgebraicType({
 
 })
 
-// valid data
-assert.deepEqual(
-  Action.ReceiveProducts({ products: [ { id: '1' } ], meta: { time: 1 } }),
-  { type: 'ReceiveProducts', products: [ { id: '1' } ], meta: { time: 1 } }
-)
 
-// invalid data
-assert.throws(
-  () => Action.ReceiveProducts({ products: 'wow' })
-)
+// value constructor
+test('value constructor valid data', t => {
+  t.same(
+    Action.ReceiveProducts({ products: [ { id: '1' } ], meta: { time: 1 } }),
+    { type: 'ReceiveProducts', products: [ { id: '1' } ], meta: { time: 1 } }
+  )
+})
+
+test('vale constructor with invalid data', t => {
+  t.throws(() => Action.ReceiveProducts({ products: 'wow' }))
+})
+
 
 // isX
-assert.strictEqual(
-  Action.isReceiveProducts({ type: 'ReceiveProducts' }),
-  true
-)
-assert.strictEqual(
-  Action.isReceiveProducts({ type: 'Nyan' }),
-  false
-)
+test('isX() true', t => {
+  t.true(Action.isReceiveProducts({ type: 'ReceiveProducts' }))
+})
 
-// check() valid
-assert.deepEqual(
-  Action.check({ type: 'ReceiveProducts', products: [ ] }),
-  { type: 'ReceiveProducts', products: [ ] }
-)
+test('isX() false', t => {
+  t.false(Action.isReceiveProducts({ type: 'Nyan' }))
+})
 
-// check() invalid
-assert.throws(
-  () => Action.check({ type: 'ReceiveProducts', products: { } })
-)
 
-// check() untyped
-assert.throws(
-  () => Action.check({ products: { } })
-)
+// validate()
+test('validate() valid object', t => {
+  const VALID_OBJECT = { type: 'ReceiveProducts', products: [ ] }
+  t.ok(Action.validate(VALID_OBJECT) === VALID_OBJECT)
+})
 
-// check() unknown
-assert.deepEqual(
-  Action.check({ type: '@@redux/INIT', products: { } }),
-  { type: '@@redux/INIT', products: { } }
-)
+test('validate() invalid object', t => {
+  const INVALID_OBJECT = { type: 'ReceiveProducts', products: { } }
+  t.throws(() => Action.validate(INVALID_OBJECT))
+})
+
+test('validate() untyped object', t => {
+  const UNTYPED_OBJECT = { products: { } }
+  t.throws(() => Action.validate(UNTYPED_OBJECT))
+})
+
+test('validate() unknown object', t => {
+  const UNKNOWN_TYPE_OBJECT = { type: '@@redux/INIT', products: { } }
+  t.ok(Action.validate(UNKNOWN_TYPE_OBJECT) === UNKNOWN_TYPE_OBJECT)
+})
+
 
 // hasType()
-assert.deepEqual(
-  Action.hasType('ReceiveProducts'),
-  true
-)
-assert.deepEqual(
-  Action.hasType('@@redux/INIT'),
-  false
-)
-assert.deepEqual(
-  Action.hasType('hasOwnProperty'),
-  false
-)
+test('hasType() true', t => {
+  t.true(Action.hasType('ReceiveProducts'))
+})
+
+test('hasType() false', t => {
+  t.false(Action.hasType('@@redux/INIT'))
+  t.false(Action.hasType('@@redux/hasOwnProperty'))
+  t.false(Action.hasType('@@redux/__proto__'))
+})
+
+
+// toString()
+test('toString()', t => {
+  t.ok(Action.ReceiveProducts.toString() === 'ReceiveProducts')
+})
+
+
+// constructor
+test('force type name not to start with lowercase', t => {
+  t.throws(() => AlgebraicType({ setColor: { } }))
+})
+test('allows `meta` key', t => {
+  AlgebraicType({ meta: { } })
+})

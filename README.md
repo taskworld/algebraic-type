@@ -141,10 +141,10 @@ const Action = AlgebraicType({
     switch (action.type) {
       case ADD_TODO:
         ...
-  
+
       case DELETE_TODO:
         ...
-  
+
       default:
         return state
     }
@@ -174,12 +174,6 @@ const Action = AlgebraicType({
 ## Moar Feature Ideas
 
 These are just ideas; they are not implemented yet.
-
-- __Breaking:__ Rename `check()` to `validate()` so that it is compatible with `data-structure`.
-
-- __Force all user-specified types to start with an uppercase.__ Throw an error otherwise.
-
-  This allows new features to be innovated without fear of clashing with user types.
 
 - __Add name prefix to generated `type` to prevent them from clashing.__
   Maybe follow the [ducks](https://github.com/erikras/ducks-modular-redux) convention:
@@ -221,8 +215,6 @@ These are just ideas; they are not implemented yet.
     Modify: { id: String, action: CounterAction },
   })
   ```
-
-- __Implement toString()__ so that it can be used easily with `createReducer`, esp when composed of multiple types.
 
 - __switch() function__ that takes an incoming object and switches between functions based on type.
 
