@@ -4,7 +4,7 @@
   "description": "Algebraic data types for JavaScript (which works with plain object) for use with Redux",
   "main": "index.js",
   "scripts": {
-    "test": "node test.js"
+    "test": "ava"
   },
   "author": "Thai Pangsakulyanont @ Taskworld.com <thai.p@taskworld.com>",
   "license": "MIT",
