@@ -1,6 +1,6 @@
 {
   "name": "algebraic-type",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Algebraic data types for JavaScript (which works with plain object) for use with Redux",
   "main": "index.js",
   "scripts": {
