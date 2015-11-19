@@ -1,6 +1,6 @@
 
-// I try to write this in ES5 because it may be open-sourced.
 var DataStructure = require('data-structure')
+var assign = require('lodash.assign')
 
 function AlgebraicType (subtypes) {
 
@@ -18,7 +18,7 @@ function AlgebraicType (subtypes) {
     var validate = DataStructure(schema)
 
     function construct (fields) {
-      return Object.assign({ type: subtypeName }, validate(fields))
+      return assign({ type: subtypeName }, validate(fields))
     }
 
     function is (fields) {

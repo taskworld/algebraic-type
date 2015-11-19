@@ -9,7 +9,8 @@
   "author": "Thai Pangsakulyanont @ Taskworld.com <thai.p@taskworld.com>",
   "license": "MIT",
   "dependencies": {
-    "data-structure": "^1.2.0"
+    "data-structure": "^1.2.0",
+    "lodash.assign": "^3.2.0"
   },
   "devDependencies": {
     "ava": "^0.5.0"
