@@ -37,7 +37,20 @@ test('value constructor valid data', t => {
   )
 })
 
-test('vale constructor with invalid data', t => {
+test('value constructor valid extra data', t => {
+  t.same(
+    Action.CheckoutRequest({ total: 100 }),
+    { type: 'CheckoutRequest', total: 100 }
+  )
+})
+
+test('value constructor with symbol', t => {
+  const TEST = Symbol('Reticulate Spline')
+  const action = Action.CheckoutRequest({ [TEST]: 1 })
+  t.same(action[TEST], 1)
+})
+
+test('value constructor with invalid data', t => {
   t.throws(() => Action.ReceiveProducts({ products: 'wow' }))
 })
 

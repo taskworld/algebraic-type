@@ -1,6 +1,6 @@
 
 var DataStructure = require('data-structure')
-var assign = require('lodash.assign')
+var assign = require('object-assign')
 
 function AlgebraicType (subtypes) {
 
