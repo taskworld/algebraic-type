@@ -18,7 +18,7 @@ function AlgebraicType (subtypes) {
     var validate = DataStructure(schema)
 
     function construct (fields) {
-      return assign({ type: subtypeName }, validate(fields))
+      return assign({ type: subtypeName }, validate(fields || { }))
     }
 
     function is (fields) {

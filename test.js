@@ -44,6 +44,13 @@ test('value constructor valid extra data', t => {
   )
 })
 
+test('value constructor with no parameter when no data required', t => {
+  t.same(
+    Action.CheckoutRequest(),
+    { type: 'CheckoutRequest' }
+  )
+})
+
 test('value constructor with symbol', t => {
   const TEST = Symbol('Reticulate Spline')
   const action = Action.CheckoutRequest({ [TEST]: 1 })
