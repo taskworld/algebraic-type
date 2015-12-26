@@ -7,6 +7,31 @@ const test = (name, f) => ava(name, t => { f(t); t.end() })
 
 
 const Action = AlgebraicType({
+  ReceiveProducts: {
+    products: Array,
+  },
+
+  AddToCart: {
+    productId: String
+  },
+
+  CheckoutRequest: { },
+
+  CheckoutSuccess: {
+    cart: Object,
+  },
+
+  CheckoutFailure: {
+    cart: Object,
+  },
+
+})
+
+const TestNamespace = 'chris/prefix/'
+const NamespaceAction = AlgebraicType({
+  meta: {
+    namespace: TestNamespace,
+  },
 
   ReceiveProducts: {
     products: Array,
@@ -97,6 +122,7 @@ test('validate() unknown object', t => {
 // hasType()
 test('hasType() true', t => {
   t.true(Action.hasType('ReceiveProducts'))
+  t.true(NamespaceAction.hasType('ReceiveProducts'))
 })
 
 test('hasType() false', t => {
@@ -109,6 +135,7 @@ test('hasType() false', t => {
 // toString()
 test('toString()', t => {
   t.ok(Action.ReceiveProducts.toString() === 'ReceiveProducts')
+  t.ok(NamespaceAction.ReceiveProducts.toString() === 'ReceiveProducts')
 })
 
 
@@ -118,4 +145,46 @@ test('force type name not to start with lowercase', t => {
 })
 test('allows `meta` key', t => {
   AlgebraicType({ meta: { } })
+})
+
+
+// namepsacing
+test('namespacing value constructor valid data', t => {
+
+  t.same(
+    NamespaceAction.ReceiveProducts({ products: [ { id: '1' } ], meta: { time: 1 } }),
+    { type: TestNamespace + 'ReceiveProducts', products: [ { id: '1' } ], meta: { time: 1 } }
+  )
+})
+
+test('namespaced value constructor valid extra data', t => {
+  t.same(
+    NamespaceAction.CheckoutRequest({ total: 100 }),
+    { type: TestNamespace + 'CheckoutRequest', total: 100 }
+  )
+})
+
+test('namespaced value constructor with no parameter when no data required', t => {
+  t.same(
+    NamespaceAction.CheckoutRequest(),
+    { type: TestNamespace + 'CheckoutRequest' }
+  )
+})
+
+test('namespaced value constructor with symbol', t => {
+  const TEST = Symbol('Reticulate Spline')
+  const action = NamespaceAction.CheckoutRequest({ [TEST]: 1 })
+  t.same(action[TEST], 1)
+})
+
+test('namespaced value constructor create different action type for same action name', t => {
+  t.notSame(NamespaceAction.CheckoutRequest(), Action.CheckoutRequest())
+})
+
+test('namespaced action produced different action from unnamespaced action', t => {
+  t.true(Action.isReceiveProducts({ type: 'ReceiveProducts' }))
+  t.false(NamespaceAction.isReceiveProducts({ type: 'ReceiveProducts' }))
+
+  t.true(NamespaceAction.isReceiveProducts({ type: TestNamespace + 'ReceiveProducts' }))
+  t.false(Action.isReceiveProducts({ type: TestNamespace + 'ReceiveProducts' }))
 })
