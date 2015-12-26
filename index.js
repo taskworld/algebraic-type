@@ -5,14 +5,22 @@ var assign = require('object-assign')
 function AlgebraicType (subtypes) {
 
   var types = { }
+  var metaData = assign({
+    namespace: ''
+  }, subtypes.meta)
 
-  Object.keys(subtypes).forEach(function (subtypeName) {
+  var keys = Object.keys(subtypes)
+  var indexOfMeta = keys.indexOf('meta')
+  subTypeKeys = indexOfMeta == -1 ? keys : keys.splice(indexOfMeta, 1)
+
+  subTypeKeys.forEach(function (subtypeName) {
 
     if (/^[a-z]/.test(subtypeName)) {
       if (subtypeName !== 'meta') {
         throw new Error('Type name `' + subtypeName + '` should not start with lowercase.')
       }
     }
+    // Should ignore meta action???
 
     var schema = subtypes[subtypeName]
     var validate = DataStructure(schema)
