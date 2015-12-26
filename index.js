@@ -11,8 +11,8 @@ function AlgebraicType (subtypes) {
 
   var keys = Object.keys(subtypes)
   var indexOfMeta = keys.indexOf('meta')
-  subTypeKeys = indexOfMeta == -1 ? keys : keys.splice(indexOfMeta, 1)
-
+  indexOfMeta == -1 ? keys : keys.splice(indexOfMeta, 1)
+  subTypeKeys = keys
   subTypeKeys.forEach(function (subtypeName) {
 
     if (/^[a-z]/.test(subtypeName)) {
@@ -20,17 +20,17 @@ function AlgebraicType (subtypes) {
         throw new Error('Type name `' + subtypeName + '` should not start with lowercase.')
       }
     }
-    // Should ignore meta action???
 
     var schema = subtypes[subtypeName]
     var validate = DataStructure(schema)
+    var namespacedAction = metaData.namespace + subtypeName
 
     function construct (fields) {
-      return assign({ type: subtypeName }, validate(fields || { }))
+      return assign({ type: namespacedAction }, validate(fields || { }))
     }
 
     function is (fields) {
-      return fields.type === subtypeName
+      return fields.type === namespacedAction
     }
 
     function getName () {
